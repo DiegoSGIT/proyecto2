@@ -6,7 +6,7 @@ pipeline {
         maven 'maven392'
     }
 
-    enviroment{
+    environment{
         JAVA_HOME = '${jdk}'
     }
     
@@ -19,6 +19,14 @@ pipeline {
             stage ('Build') {
                 steps {
                     sh "mvn clean verify"
+                    echo "jdk installation path is: ${jdk}"
+
+                    // next 2 are equivalents
+                    sh "${jdk}/bin/java -version"
+
+                    // note that simple quote strings are not evaluated by Groovy
+                    // substitution is done by shell script using environment
+                    sh '$JAVA_HOME/bin/java -version'
                 }    
             }
     }
