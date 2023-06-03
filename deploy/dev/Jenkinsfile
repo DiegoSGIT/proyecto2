@@ -2,8 +2,8 @@ pipeline {
     agent any
     
     tools {
-        jdk 'java11'
-        maven 'maven392'
+        jdk 'JAVA11'
+        maven 'mv392'
     }
 
     environment{
@@ -11,15 +11,31 @@ pipeline {
     }
     
     stages {
+           stage('Initialize'){
+            steps{
+                script{
+                        env.PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+                       
+                    }
+                }
+             }   
             stage('Which Java?') {
                 steps {
-                    sh 'java --version'
+                    script{
+                        
+                        sh 'java --version'
+                    }
                 }
             }
             stage ('Build') {
                 steps {
-                    sh "echo $JAVA_HOME"
-                    sh "mvn clean verify"
+                    script{
+                        
+                        sh "echo $JAVA_HOME"
+                        sh "echo $M2_HOME"
+                        sh "echo $PATH"
+                        sh "mvn -version"
+                    }
                 }    
             }
     }
